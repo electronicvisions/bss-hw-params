@@ -1,0 +1,29 @@
+@Library("jenlib") _
+
+try {
+	wafDefaultPipeline(projects: ["bss-hw-params"],
+	                   container: [app: "dls"],
+	                   notificationChannel: "#jenkins-trashbin")  // success checked globally
+
+	wafDefaultPipeline(projects: ["bss-hw-params"],
+	                   container: [image: getAsicContainer()],
+	                   notificationChannel: "#jenkins-trashbin", // success checked globally
+	                   enableClangFormat: false) // not available in ASIC container
+} catch (Throwable t) {
+	notifyFailure(mattermostChannel: "#softies")
+	throw t
+}
+
+if (currentBuild.currentResult != "SUCCESS") {
+	notifyFailure(mattermostChannel: "#softies")
+}
+
+/**
+ * Compute the ASIC container image to be used.
+ * @return Path to the container image
+ */
+String getAsicContainer() {
+	return getDefaultFixturePath(defaultPathCanonical: "/containers/stable/asic_latest",
+	                             commitKey: "In-ASIC-Container",
+	                             parameterName: "OVERWRITE_DEFAULT_ASIC_CONTAINER_IMAGE")
+}
