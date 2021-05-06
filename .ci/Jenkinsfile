@@ -5,6 +5,10 @@ try {
 	                   container: [app: "dls"],
 	                   notificationChannel: "#jenkins-trashbin")  // success checked globally
 
+	runOnSlave(label: "frontend") {
+		cleanWs()
+	}
+
 	wafDefaultPipeline(projects: ["bss-hw-params"],
 	                   container: [image: getAsicContainer()],
 	                   notificationChannel: "#jenkins-trashbin", // success checked globally
