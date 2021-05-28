@@ -2,7 +2,7 @@
 
 try {
 	wafDefaultPipeline(projects: ["bss-hw-params"],
-	                   container: [app: "dls"],
+	                   container: [app: "dls-nodev"],
 	                   notificationChannel: "#jenkins-trashbin")  // success checked globally
 
 	runOnSlave(label: "frontend") {
