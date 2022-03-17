@@ -1,18 +1,22 @@
 @Library("jenlib") _
 
 try {
-	wafDefaultPipeline(projects: ["bss-hw-params"],
-	                   container: [app: "dls-nodev"],
-	                   notificationChannel: "#jenkins-trashbin")  // success checked globally
+	withCcache() {
+		wafDefaultPipeline(projects: ["bss-hw-params"],
+		                   container: [app: "dls-nodev"],
+		                   notificationChannel: "#jenkins-trashbin")  // success checked globally
+	}
 
 	runOnSlave(label: "frontend") {
 		cleanWs()
 	}
 
-	wafDefaultPipeline(projects: ["bss-hw-params"],
-	                   container: [image: getAsicContainer()],
-	                   notificationChannel: "#jenkins-trashbin", // success checked globally
-	                   enableClangFormat: false) // not available in ASIC container
+	withCcache() {
+		wafDefaultPipeline(projects: ["bss-hw-params"],
+		                   container: [image: getAsicContainer()],
+		                   notificationChannel: "#jenkins-trashbin", // success checked globally
+		                   enableClangFormat: false) // not available in ASIC container
+	}
 } catch (Throwable t) {
 	notifyFailure(mattermostChannel: "#softies")
 	throw t
