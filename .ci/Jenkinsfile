@@ -1,8 +1,9 @@
-@Library("jenlib") _
+@Library("jenlib@ebrains-4.0") _
 
 try {
 	withCcache() {
 		wafDefaultPipeline(projects: ["bss-hw-params"],
+		                   setupOptions: "--release-branch=ebrains-4.0",
 		                   container: [app: "dls-nodev"],
 		                   notificationChannel: "#jenkins-trashbin")  // success checked globally
 	}
@@ -13,6 +14,7 @@ try {
 
 	withCcache() {
 		wafDefaultPipeline(projects: ["bss-hw-params"],
+		                   setupOptions: "--release-branch=ebrains-4.0",
 		                   container: [image: getAsicContainer()],
 		                   notificationChannel: "#jenkins-trashbin", // success checked globally
 		                   enableClangFormat: false) // not available in ASIC container
