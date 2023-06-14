@@ -13,7 +13,7 @@ try {
 
 	withCcache() {
 		wafDefaultPipeline(projects: ["bss-hw-params"],
-		                   container: [image: getAsicContainer()],
+		                   container: [image: getDefaultAsicContainerPath(), app: "asic"],
 		                   notificationChannel: "#jenkins-trashbin", // success checked globally
 		                   enableClangTidy: false,  // no 'bear' in ASIC container
 		                   enableCppcheck: false,  // no 'bear' in ASIC container
@@ -26,14 +26,4 @@ try {
 
 if (currentBuild.currentResult != "SUCCESS") {
 	notifyFailure(mattermostChannel: "#softies")
-}
-
-/**
- * Compute the ASIC container image to be used.
- * @return Path to the container image
- */
-String getAsicContainer() {
-	return getDefaultFixturePath(defaultPathCanonical: "/containers/stable/asic_latest",
-	                             commitKey: "In-ASIC-Container",
-	                             parameterName: "OVERWRITE_DEFAULT_ASIC_CONTAINER_IMAGE")
 }
