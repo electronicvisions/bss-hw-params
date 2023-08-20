@@ -15,6 +15,8 @@ try {
 		wafDefaultPipeline(projects: ["bss-hw-params"],
 		                   container: [image: getAsicContainer()],
 		                   notificationChannel: "#jenkins-trashbin", // success checked globally
+		                   enableClangTidy: false,  // no 'bear' in ASIC container
+		                   enableCppcheck: false,  // no 'bear' in ASIC container
 		                   enableClangFormat: false) // not available in ASIC container
 	}
 } catch (Throwable t) {
