@@ -7,7 +7,7 @@ namespace jboa_ethernet {
  * FPGA bitfile compatibility.
  * Incremented on breaking changes within the FPGA design.
  */
-static constexpr size_t bitfile_compatible_until = 0;
+static constexpr size_t bitfile_compatible_until = 1;
 
 } // namespace jboa_ethernet
 } // namespace bss_hw_params
